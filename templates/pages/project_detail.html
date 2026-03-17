@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} · {{ owner.name }}{% endblock %}
+
+{% block content %}
+<div class="detail-hero">
+  <div class="container">
+    <div class="row align-items-center pt-5 mt-5">
+      <div class="col-lg-8">
+        <a href="{% url 'pages:home' %}#projects" class="back-link mb-4 d-inline-flex align-items-center gap-2">
+          <i data-lucide="arrow-left" width="14" height="14"></i> Back to Projects
+        </a>
+        <span class="project-category-label mb-2 d-block">{{ project.get_category_display }}</span>
+        <h1 class="detail-title">{{ project.title }}</h1>
+        {% if project.client %}
+        <p class="detail-client">
+          <i data-lucide="building-2" width="14" height="14"></i> {{ project.client }}
+        </p>
+        {% endif %}
+        <div class="detail-actions mt-4">
+          {% if project.live_url %}
+          <a href="{{ project.live_url }}" target="_blank" class="btn btn-accent me-3">
+            <i data-lucide="external-link" width="14" height="14"></i> Live Demo
+          </a>
+          {% endif %}
+          {% if project.github_url %}
+          <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-light">
+            <i data-lucide="github" width="14" height="14"></i> Source Code
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-8">
+      {% if project.image %}
+      <img src="{{ project.image.url }}" alt="{{ project.title }}" class="detail-img mb-5">
+      {% endif %}
+      <h4 class="mb-3">About this project</h4>
+      <p class="detail-desc">{{ project.description }}</p>
+    </div>
+    <div class="col-lg-4">
+      <div class="detail-sidebar">
+        <h6 class="sidebar-heading">Tech Stack</h6>
+        <div class="project-tech-tags mb-4">
+          {% for tech in project.get_tech_list %}
+          <span class="tech-tag">{{ tech }}</span>
+          {% endfor %}
+        </div>
+        {% if project.featured %}
+        <div class="sidebar-badge mb-3">
+          <i data-lucide="star" width="13" height="13"></i> Featured Project
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if related %}
+  <hr class="my-5 border-secondary">
+  <h4 class="mb-4">Related Projects</h4>
+  <div class="row g-4">
+    {% for p in related %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="project-card">
+        {% if p.image %}
+        <div class="project-img-wrap">
+          <img src="{{ p.image.url }}" alt="{{ p.title }}" class="project-img">
+        </div>
+        {% else %}
+        <div class="project-placeholder-img small-placeholder">
+          <i data-lucide="layout-dashboard" width="24" height="24"></i>
+        </div>
+        {% endif %}
+        <div class="project-body">
+          <h6 class="project-title"><a href="{% url 'pages:project_detail' p.slug %}">{{ p.title }}</a></h6>
+          <p class="project-desc">{{ p.description|truncatewords:15 }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

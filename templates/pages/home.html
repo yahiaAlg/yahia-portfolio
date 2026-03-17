@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="hero-section" id="about">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-8">
+
+        <div class="hero-badge mb-4 reveal">
+          <i data-lucide="map-pin" width="13" height="13"></i>
+          Sétif, Algeria &nbsp;·&nbsp; Open to Remote
+        </div>
+
+        <h1 class="hero-name reveal reveal-delay-1">
+          <span class="line">Lakhfif</span>
+          <span class="line accent-line">Yahia.</span>
+        </h1>
+
+        <p class="hero-title reveal reveal-delay-2">
+          Full-Stack Developer &amp; Data Engineer
+        </p>
+
+        <p class="hero-desc reveal reveal-delay-3">
+          Building production SaaS platforms across healthcare, automotive,
+          tourism &amp; education. Master's in Big Data &amp; Web Technologies —
+          <span class="text-accent">Label Projet Innovant</span> laureate.
+        </p>
+
+        <div class="hero-actions reveal reveal-delay-4">
+          <a href="#projects" class="btn btn-accent btn-lg me-3">
+            <i data-lucide="folder-open" width="16" height="16"></i>
+            View Projects
+          </a>
+          <a href="#contact" class="btn btn-outline-light btn-lg">
+            <i data-lucide="send" width="16" height="16"></i>
+            Get In Touch
+          </a>
+        </div>
+
+        <div class="hero-stats reveal reveal-delay-4 mt-5">
+          <div class="stat-item">
+            <span class="stat-num">9+</span>
+            <span class="stat-label">Live Projects</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">2</span>
+            <span class="stat-label">Startup Labels</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Tech Stacks</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-4 d-none d-lg-flex justify-content-center">
+        <div class="hero-avatar-wrap">
+          <div class="hero-avatar-ring"></div>
+          <div class="hero-avatar-inner">
+            <i data-lucide="user" width="72" height="72" class="text-accent"></i>
+          </div>
+          <div class="floating-badge fb-1">Django</div>
+          <div class="floating-badge fb-2">AI/ML</div>
+          <div class="floating-badge fb-3">React</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <i data-lucide="chevrons-down" width="20" height="20"></i>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SKILLS
+══════════════════════════════════════════════════════════ -->
+<section class="section-pad" id="skills">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Expertise</span>
+      <h2 class="section-title">Technical Skills</h2>
+    </div>
+
+    <div class="row g-4">
+      {% for cat in skill_categories %}
+      <div class="col-sm-6 col-xl-4">
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <div class="skill-icon-wrap">
+              <i data-lucide="{{ cat.icon }}" width="18" height="18"></i>
+            </div>
+            <h6 class="skill-cat-name">{{ cat.name }}</h6>
+          </div>
+          <div class="skill-tags">
+            {% for skill in cat.skills.all %}
+            <span class="skill-tag">{{ skill.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PROJECTS
+══════════════════════════════════════════════════════════ -->
+<section class="section-pad section-dark" id="projects">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Work</span>
+      <h2 class="section-title">Projects</h2>
+    </div>
+
+    <!-- Filter buttons -->
+    <div class="project-filters mb-5">
+      <button class="filter-btn active" data-filter="all">All</button>
+      {% for key, label in categories %}
+      <button class="filter-btn" data-filter="{{ key }}">{{ label }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="row g-4" id="projectGrid">
+      {% for project in all_projects %}
+      <div class="col-sm-6 col-xl-4 project-item" data-cat="{{ project.category }}">
+        <div class="project-card {% if project.featured %}project-featured{% endif %}">
+
+          {% if project.image %}
+          <div class="project-img-wrap">
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img">
+            <div class="project-img-overlay">
+              <a href="{% url 'pages:project_detail' project.slug %}" class="btn btn-sm btn-accent">
+                View Details
+              </a>
+            </div>
+          </div>
+          {% else %}
+          <div class="project-placeholder-img">
+            <i data-lucide="layout-dashboard" width="36" height="36"></i>
+          </div>
+          {% endif %}
+
+          <div class="project-body">
+            {% if project.featured %}
+            <span class="project-featured-badge">
+              <i data-lucide="star" width="10" height="10"></i> Featured
+            </span>
+            {% endif %}
+
+            <span class="project-category-label">{{ project.get_category_display }}</span>
+            <h5 class="project-title">
+              <a href="{% url 'pages:project_detail' project.slug %}">{{ project.title }}</a>
+            </h5>
+
+            {% if project.client %}
+            <p class="project-client">
+              <i data-lucide="building-2" width="12" height="12"></i>
+              {{ project.client }}
+            </p>
+            {% endif %}
+
+            <p class="project-desc">{{ project.description|truncatewords:22 }}</p>
+
+            <div class="project-tech-tags">
+              {% for tech in project.get_tech_list %}
+              <span class="tech-tag">{{ tech }}</span>
+              {% endfor %}
+            </div>
+
+            <div class="project-links mt-3">
+              {% if project.live_url %}
+              <a href="{{ project.live_url }}" target="_blank" class="btn btn-sm btn-outline-accent me-2">
+                <i data-lucide="external-link" width="12" height="12"></i> Live
+              </a>
+              {% endif %}
+              {% if project.github_url %}
+              <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-outline-light">
+                <i data-lucide="github" width="12" height="12"></i> Code
+              </a>
+              {% endif %}
+              <a href="{% url 'pages:project_detail' project.slug %}" class="btn btn-sm btn-ghost ms-auto">
+                Details <i data-lucide="arrow-right" width="12" height="12"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">
+        <i data-lucide="folder-x" width="40" height="40"></i>
+        <p class="mt-3">No projects yet. Add them via the Admin panel.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     EXPERIENCE & EDUCATION
+══════════════════════════════════════════════════════════ -->
+<section class="section-pad" id="experience">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Experience -->
+      <div class="col-lg-6">
+        <div class="section-header text-start">
+          <span class="section-tag">Career</span>
+          <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="timeline">
+          {% for exp in experiences %}
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="tl-period">{{ exp.period }}</div>
+              <h6 class="tl-title">{{ exp.title }}</h6>
+              <p class="tl-org">
+                <i data-lucide="building-2" width="12" height="12"></i>
+                {{ exp.organization }}{% if exp.location %}, {{ exp.location }}{% endif %}
+              </p>
+              {% if exp.description %}
+              <p class="tl-desc">{{ exp.description }}</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Education & Certs -->
+      <div class="col-lg-6">
+        <div class="section-header text-start">
+          <span class="section-tag">Academic</span>
+          <h2 class="section-title">Education</h2>
+        </div>
+        <div class="timeline mb-5">
+          {% for edu in education %}
+          <div class="timeline-item">
+            <div class="timeline-dot tl-dot-edu"></div>
+            <div class="timeline-content">
+              <div class="tl-period">{{ edu.period }}</div>
+              <h6 class="tl-title">{{ edu.title }}</h6>
+              <p class="tl-org">
+                <i data-lucide="graduation-cap" width="12" height="12"></i>
+                {{ edu.organization }}{% if edu.location %}, {{ edu.location }}{% endif %}
+              </p>
+              {% if edu.description %}
+              <p class="tl-desc">{{ edu.description }}</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="section-header text-start mt-4">
+          <span class="section-tag">Recognition</span>
+          <h2 class="section-title">Certifications</h2>
+        </div>
+        <div class="cert-list">
+          {% for cert in certifications %}
+          <div class="cert-item">
+            <div class="cert-icon">
+              <i data-lucide="{{ cert.icon }}" width="16" height="16"></i>
+            </div>
+            <div class="cert-body">
+              <strong class="cert-title">{{ cert.title }}</strong>
+              <span class="cert-meta">{{ cert.issuer }} · {{ cert.date }}</span>
+              <div class="cert-actions mt-2">
+                {% if cert.image %}
+                <button class="cert-btn cert-btn-view"
+                  data-lightbox-src="{{ cert.image.url }}"
+                  data-lightbox-title="{{ cert.title }}"
+                  data-lightbox-issuer="{{ cert.issuer }} · {{ cert.date }}">
+                  <i data-lucide="image" width="12" height="12"></i> View Certificate
+                </button>
+                {% endif %}
+                {% if cert.link %}
+                <a href="{{ cert.link }}" target="_blank" class="cert-btn cert-btn-link">
+                  <i data-lucide="external-link" width="12" height="12"></i> Verify
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Lightbox overlay -->
+        <div id="certLightbox" class="cert-lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+          <div class="cert-lightbox-backdrop"></div>
+          <div class="cert-lightbox-dialog">
+            <button class="cert-lightbox-close" id="certLightboxClose" aria-label="Close">
+              <i data-lucide="x" width="20" height="20"></i>
+            </button>
+            <div class="cert-lightbox-header">
+              <strong id="certLightboxTitle"></strong>
+              <span id="certLightboxIssuer"></span>
+            </div>
+            <div class="cert-lightbox-body">
+              <img id="certLightboxImg" src="" alt="Certificate" />
+            </div>
+            <div class="cert-lightbox-footer">
+              <a id="certLightboxDownload" href="" download class="cert-btn cert-btn-link">
+                <i data-lucide="download" width="13" height="13"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CONTACT
+══════════════════════════════════════════════════════════ -->
+<section class="section-pad section-dark" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Let's Talk</span>
+      <h2 class="section-title">Contact</h2>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="contact-card">
+          <p class="contact-intro">
+            Available for freelance projects, full-time roles, and consulting.
+            Reach out — I usually respond within 24 hours.
+          </p>
+          <div class="row g-4 mt-2">
+            <div class="col-sm-6">
+              <a href="mailto:{{ owner.email }}" class="contact-item">
+                <div class="contact-item-icon">
+                  <i data-lucide="mail" width="20" height="20"></i>
+                </div>
+                <div>
+                  <div class="contact-item-label">Email</div>
+                  <div class="contact-item-value">{{ owner.email }}</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <a href="https://wa.me/{{ owner.phone|cut:' '|cut:'+' }}" target="_blank" class="contact-item">
+                <div class="contact-item-icon">
+                  <i data-lucide="phone" width="20" height="20"></i>
+                </div>
+                <div>
+                  <div class="contact-item-label">WhatsApp</div>
+                  <div class="contact-item-value">{{ owner.phone }}</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <a href="{{ owner.github }}" target="_blank" class="contact-item">
+                <div class="contact-item-icon">
+                  <i data-lucide="github" width="20" height="20"></i>
+                </div>
+                <div>
+                  <div class="contact-item-label">GitHub</div>
+                  <div class="contact-item-value">yahiaAlg</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <a href="{{ owner.linkedin }}" target="_blank" class="contact-item">
+                <div class="contact-item-icon">
+                  <i data-lucide="linkedin" width="20" height="20"></i>
+                </div>
+                <div>
+                  <div class="contact-item-label">LinkedIn</div>
+                  <div class="contact-item-value">abderraouf-lakhfif</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
