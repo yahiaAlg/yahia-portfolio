@@ -4,8 +4,6 @@
 set -o errexit
 set -o pipefail
 
-# Python version check (Render supports Python 3.8+)
-python3.10 -m pip install --upgrade pip
 
 # Install Python dependencies
 pip install -r requirements.txt
