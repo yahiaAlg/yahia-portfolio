@@ -12,7 +12,7 @@ pip install -r requirements.txt
 pip install gunicorn
 
 # Flush database and reapply migrations (fresh deploy)
-python manage.py flush --no-input
+# python manage.py flush --no-input
 python manage.py migrate
 
 # Collect static files for production
@@ -22,7 +22,7 @@ echo "Creating admin superuser..."
 python manage.py create_admin
 
 echo "Seeding portfolio data..."
-python manage.py seed_portfolio
+# python manage.py seed_portfolio
 
 echo "Build completed successfully!"
 
