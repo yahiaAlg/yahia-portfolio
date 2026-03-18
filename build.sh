@@ -22,7 +22,7 @@ echo "Creating admin superuser..."
 python manage.py create_admin
 
 echo "Seeding portfolio data..."
-# python manage.py seed_portfolio
+python manage.py seed_portfolio
 
 echo "Build completed successfully!"
 

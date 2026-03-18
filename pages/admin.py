@@ -7,7 +7,7 @@ from .models import (SiteProfile, ContactLink, Language, TrainingCourse,
 @admin.register(SiteProfile)
 class SiteProfileAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Identity', {'fields': ['full_name', 'job_title', 'avatar', 'location']}),
+        ('Identity', {'fields': ['full_name', 'job_title', 'avatar', 'cv_file', 'location']}),
         ('Bio',      {'fields': ['summary']}),
     ]
     def has_add_permission(self, request):

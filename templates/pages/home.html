@@ -40,10 +40,16 @@
             <i data-lucide="folder-open" width="16" height="16"></i>
             View Projects
           </a>
-          <a href="#contact" class="btn btn-outline-light btn-lg">
+          <a href="#contact" class="btn btn-outline-light btn-lg me-3">
             <i data-lucide="send" width="16" height="16"></i>
             Get In Touch
           </a>
+          {% if profile.cv_file %}
+          <a href="{{ profile.cv_file.url }}" download class="btn btn-outline-accent btn-lg">
+            <i data-lucide="download" width="16" height="16"></i>
+            Download CV
+          </a>
+          {% endif %}
         </div>
 
         <div class="hero-stats reveal reveal-delay-4 mt-5">

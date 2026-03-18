@@ -9,6 +9,8 @@ class SiteProfile(models.Model):
     summary     = models.TextField(help_text='Short bio shown on CV and portfolio hero')
     location    = models.CharField(max_length=100, default='Sétif, Algeria')
     avatar      = models.ImageField(upload_to='profile/', blank=True, null=True)
+    cv_file     = models.FileField(upload_to='cv/', blank=True, null=True,
+                    help_text='Upload your CV as PDF or DOCX for the Download button')
 
     class Meta:
         verbose_name = 'Site Profile'
