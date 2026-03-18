@@ -12,207 +12,143 @@
 </head>
 <body>
 
-  <!-- ── SCREEN-ONLY TOOLBAR ───────────────────────────────── -->
+  <!-- TOOLBAR (screen only) -->
   <div class="cv-toolbar no-print">
     <div class="cv-toolbar-inner">
-      <a href="{% url 'pages:home' %}" class="toolbar-btn toolbar-btn-back">
-        ← Back to Portfolio
-      </a>
-      <span class="toolbar-title">CV Preview</span>
-      <button class="toolbar-btn toolbar-btn-print" onclick="window.print()">
-        🖨 Print / Save PDF
-      </button>
+      <a href="{% url 'pages:home' %}" class="toolbar-btn toolbar-btn-back">← Portfolio</a>
+      <span class="toolbar-title">CV Preview — A4</span>
+      <button class="toolbar-btn toolbar-btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════
-       CV DOCUMENT
-  ══════════════════════════════════════════════════════════ -->
+  <!-- CV DOCUMENT -->
   <div class="cv-page">
 
-    <!-- ── HEADER ──────────────────────────────────────────── -->
+    <!-- HEADER -->
     <header class="cv-header">
       <div class="cv-header-left">
         <h1 class="cv-name">{{ owner.name }}</h1>
         <p class="cv-job-title">Full-Stack Developer &nbsp;·&nbsp; Data Engineer</p>
       </div>
       <div class="cv-header-right">
-        <div class="cv-contact-item">
-          <span class="cv-contact-icon">✉</span>
-          <span>{{ owner.email }}</span>
-        </div>
-        <div class="cv-contact-item">
-          <span class="cv-contact-icon">☎</span>
-          <span>{{ owner.phone }}</span>
-        </div>
-        <div class="cv-contact-item">
-          <span class="cv-contact-icon">⌂</span>
-          <span>{{ owner.location }}</span>
-        </div>
-        <div class="cv-contact-item">
-          <span class="cv-contact-icon">⌂</span>
-          <span>github.com/yahiaAlg</span>
-        </div>
-        <div class="cv-contact-item">
-          <span class="cv-contact-icon">in</span>
-          <span>linkedin.com/in/abderraouf-lakhfif-1102523b8</span>
+        <div class="cv-contact-grid">
+          <span class="cv-contact-label">✉</span><span>{{ owner.email }}</span>
+          <span class="cv-contact-label">☎</span><span>{{ owner.phone }}</span>
+          <span class="cv-contact-label">⌖</span><span>{{ owner.location }}</span>
+          <span class="cv-contact-label">⌂</span><span>github.com/yahiaAlg</span>
+          <span class="cv-contact-label">in</span><span>linkedin.com/in/abderraouf-lakhfif-1102523b8</span>
         </div>
       </div>
     </header>
 
-    <!-- ── BODY: two columns ───────────────────────────────── -->
+    <!-- BODY -->
     <div class="cv-body">
 
-      <!-- ── LEFT COLUMN ──────────────────────────────────── -->
+      <!-- LEFT -->
       <aside class="cv-left">
 
-        <!-- SUMMARY -->
         <section class="cv-section">
           <h2 class="cv-section-title">Summary</h2>
-          <p class="cv-text">
-            Full-Stack Developer and Data Engineer with a Master's in Big Data &amp; Web
-            Technologies (IDTW, Université Sétif 1, July 2024). Delivers production SaaS
-            platforms for real clients across healthcare, automotive, tourism, and education.
-            Startup Label acquired (Label Projet Innovant). University-level teaching
-            experience and hands-on IT infrastructure administration in a clinical environment.
-          </p>
+          <p class="cv-text">Full-Stack Developer &amp; Data Engineer. Master's in Big Data &amp; Web Technologies (IDTW, Sétif 1, 2024). Delivers production SaaS for real clients. Startup Label acquired (Label Projet Innovant). University teacher and clinical IT admin.</p>
         </section>
 
-        <!-- SKILLS (dynamic) -->
         <section class="cv-section">
           <h2 class="cv-section-title">Technical Skills</h2>
           {% for cat in skill_categories %}
-          <div class="cv-skill-row">
+          <div class="cv-skill-block">
             <span class="cv-skill-key">{{ cat.name }}</span>
-            <span class="cv-skill-val">
-              {% for skill in cat.skills.all %}{{ skill.name }}{% if not forloop.last %} · {% endif %}{% endfor %}
-            </span>
+            <span class="cv-skill-val">{% for skill in cat.skills.all %}{{ skill.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span>
           </div>
           {% endfor %}
         </section>
 
-        <!-- CERTIFICATIONS (dynamic) -->
         <section class="cv-section">
           <h2 class="cv-section-title">Certifications</h2>
           {% for cert in certifications %}
           <div class="cv-cert-item">
-            <strong class="cv-cert-title">{{ cert.title }}</strong>
-            <span class="cv-cert-meta">{{ cert.issuer }} · {{ cert.date }}</span>
-            {% if cert.link %}<span class="cv-cert-link">{{ cert.link }}</span>{% endif %}
+            <strong>{{ cert.title }}</strong>
+            <span>{{ cert.issuer }} · {{ cert.date }}</span>
+            {% if cert.link %}<span class="cv-link">{{ cert.link|cut:"https://"|cut:"http://" }}</span>{% endif %}
           </div>
           {% endfor %}
         </section>
 
-        <!-- LANGUAGES -->
         <section class="cv-section">
           <h2 class="cv-section-title">Languages</h2>
-          <div class="cv-skill-row"><span class="cv-skill-key">Arabic</span><span class="cv-skill-val">Native</span></div>
-          <div class="cv-skill-row"><span class="cv-skill-key">French</span><span class="cv-skill-val">Professional</span></div>
-          <div class="cv-skill-row"><span class="cv-skill-key">English</span><span class="cv-skill-val">B2 Upper-Intermediate</span></div>
+          <div class="cv-skill-block"><span class="cv-skill-key">Arabic</span><span class="cv-skill-val">Native</span></div>
+          <div class="cv-skill-block"><span class="cv-skill-key">French</span><span class="cv-skill-val">Professional</span></div>
+          <div class="cv-skill-block"><span class="cv-skill-key">English</span><span class="cv-skill-val">B2 Upper-Intermediate</span></div>
         </section>
 
       </aside>
 
-      <!-- ── RIGHT COLUMN ─────────────────────────────────── -->
+      <!-- RIGHT -->
       <main class="cv-right">
 
-        <!-- EXPERIENCE (dynamic) -->
         <section class="cv-section">
           <h2 class="cv-section-title">Experience</h2>
           {% for exp in experiences %}
-          <div class="cv-timeline-item">
-            <div class="cv-tl-header">
-              <div>
-                <strong class="cv-tl-title">{{ exp.title }}</strong>
-                <span class="cv-tl-org">
-                  {{ exp.organization }}{% if exp.location %}, {{ exp.location }}{% endif %}
-                </span>
-              </div>
+          <div class="cv-tl-item">
+            <div class="cv-tl-top">
+              <span class="cv-tl-title">{{ exp.title }}</span>
               <span class="cv-tl-period">{{ exp.period }}</span>
             </div>
-            {% if exp.description %}
-            <p class="cv-tl-desc">{{ exp.description }}</p>
-            {% endif %}
+            <span class="cv-tl-org">{{ exp.organization }}{% if exp.location %}, {{ exp.location }}{% endif %}</span>
+            {% if exp.description %}<p class="cv-tl-desc">{{ exp.description }}</p>{% endif %}
           </div>
           {% endfor %}
         </section>
 
-        <!-- EDUCATION (dynamic) -->
         <section class="cv-section">
           <h2 class="cv-section-title">Education</h2>
           {% for edu in education %}
-          <div class="cv-timeline-item">
-            <div class="cv-tl-header">
-              <div>
-                <strong class="cv-tl-title">{{ edu.title }}</strong>
-                <span class="cv-tl-org">
-                  {{ edu.organization }}{% if edu.location %}, {{ edu.location }}{% endif %}
-                </span>
-              </div>
+          <div class="cv-tl-item">
+            <div class="cv-tl-top">
+              <span class="cv-tl-title">{{ edu.title }}</span>
               <span class="cv-tl-period">{{ edu.period }}</span>
             </div>
-            {% if edu.description %}
-            <p class="cv-tl-desc">{{ edu.description }}</p>
-            {% endif %}
+            <span class="cv-tl-org">{{ edu.organization }}{% if edu.location %}, {{ edu.location }}{% endif %}</span>
+            {% if edu.description %}<p class="cv-tl-desc">{{ edu.description }}</p>{% endif %}
           </div>
           {% endfor %}
         </section>
 
-        <!-- PROJECTS (dynamic) -->
         <section class="cv-section">
           <h2 class="cv-section-title">Projects</h2>
-          <table class="cv-proj-table">
-            <thead>
-              <tr>
-                <th>Project</th>
-                <th>Client / Context</th>
-                <th>Stack</th>
-                <th>Link</th>
-              </tr>
-            </thead>
+          <table class="cv-table">
+            <thead><tr><th>Project</th><th>Client / Context</th><th>Link</th></tr></thead>
             <tbody>
-              {% for project in all_projects %}
+              {% for p in all_projects %}
               <tr>
-                <td><strong>{{ project.title }}</strong></td>
-                <td>{{ project.client }}</td>
-                <td class="cv-mono">{{ project.tech_stack }}</td>
-                <td class="cv-mono">
-                  {% if project.live_url %}{{ project.live_url|cut:"https://"|cut:"http://" }}{% else %}—{% endif %}
-                </td>
+                <td><strong>{{ p.title }}</strong><br><span class="cv-stack">{{ p.tech_stack }}</span></td>
+                <td>{{ p.client }}</td>
+                <td class="cv-mono-sm">{% if p.live_url %}{{ p.live_url|cut:"https://"|cut:"http://" }}{% else %}—{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
         </section>
 
-        <!-- TRAINING -->
         <section class="cv-section">
           <h2 class="cv-section-title">Training &amp; Courses</h2>
-          <div class="cv-timeline-item">
-            <div class="cv-tl-header">
-              <div>
-                <strong class="cv-tl-title">STAI Academy</strong>
-                <span class="cv-tl-org">Académie Ambassadeur Technologies &amp; IA</span>
-              </div>
+          <div class="cv-tl-item">
+            <div class="cv-tl-top">
+              <span class="cv-tl-title">STAI Academy <span class="cv-tl-org-inline">(Académie Ambassadeur Technologies &amp; IA)</span></span>
               <span class="cv-tl-period">2023–2024</span>
             </div>
-            <p class="cv-tl-desc">Python (Fundamentals → Advanced) · Django Backend · Bootstrap 5 Frontend</p>
+            <p class="cv-tl-desc">Python (Fund.→Adv.) · Django Backend · Bootstrap 5 Frontend</p>
           </div>
-          <div class="cv-timeline-item">
-            <div class="cv-tl-header">
-              <div>
-                <strong class="cv-tl-title">UI/UX Design Coaching</strong>
-                <span class="cv-tl-org">University Business Incubator, Sétif 1</span>
-              </div>
+          <div class="cv-tl-item">
+            <div class="cv-tl-top">
+              <span class="cv-tl-title">UI/UX Design Coaching <span class="cv-tl-org-inline">— University Business Incubator, Sétif 1</span></span>
               <span class="cv-tl-period">May 2024</span>
             </div>
           </div>
         </section>
 
       </main>
-    </div><!-- /cv-body -->
-
-  </div><!-- /cv-page -->
+    </div>
+  </div>
 
 </body>
 </html>
