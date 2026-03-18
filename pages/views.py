@@ -22,3 +22,13 @@ def project_detail(request, slug):
         'project': project,
         'related': related,
     })
+
+
+def cv_print(request):
+    return render(request, 'pages/cv_print.html', {
+        'skill_categories': SkillCategory.objects.prefetch_related('skills'),
+        'experiences':      Experience.objects.filter(exp_type__in=['work', 'teach']),
+        'education':        Experience.objects.filter(exp_type='edu'),
+        'certifications':   Certification.objects.all(),
+        'all_projects':     Project.objects.all(),
+    })

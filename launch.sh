@@ -2,11 +2,6 @@
 set -e
 COMMAND=${1:-run}
 VENV=".venv"
-PYTHON=python
-# Prefer python3 when it actually works (some Windows environments have a python3 App Execution Alias stub)
-if python3 --version >/dev/null 2>&1; then
-    PYTHON=python3
-fi
 
 # Detect OS for venv activation path
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
@@ -33,7 +28,7 @@ else:
 case "$COMMAND" in
   setup)
     echo "🔧 Creating virtual environment..."
-    $PYTHON -m venv $VENV
+    python3 -m venv $VENV
     activate
     echo "📦 Installing dependencies..."
     pip install -r requirements.txt

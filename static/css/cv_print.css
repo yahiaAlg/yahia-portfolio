@@ -1,0 +1,279 @@
+/* ═══════════════════════════════════════════════════════════
+   CV PRINT STYLESHEET
+   Screen: preview the page as it will print
+   Print:  clean A4 output via Ctrl+P or Save as PDF
+═══════════════════════════════════════════════════════════ */
+
+/* ── VARIABLES ─────────────────────────────────────────── */
+:root {
+  --cv-accent:      #0f3460;
+  --cv-accent-light:#e8eef7;
+  --cv-text:        #111827;
+  --cv-text-dim:    #4b5563;
+  --cv-text-muted:  #6b7280;
+  --cv-border:      #d1d5db;
+  --cv-bg:          #ffffff;
+  --cv-left-bg:     #f0f4f9;
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* A4 proportions */
+  --page-w:  210mm;
+  --page-h:  297mm;
+  --margin:  12mm;
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 10pt; }
+body {
+  font-family: var(--font-body);
+  background: #e5e7eb;        /* grey background on screen */
+  color: var(--cv-text);
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── TOOLBAR (screen only) ─────────────────────────────── */
+.cv-toolbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: #1a1a2e;
+  border-bottom: 2px solid #0f3460;
+  padding: 10px 24px;
+}
+.cv-toolbar-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.toolbar-title {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: 14px; color: #a8d8ea;
+}
+.toolbar-btn {
+  font-family: var(--font-head); font-size: 12px; font-weight: 600;
+  padding: 7px 16px; border-radius: 6px;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.toolbar-btn-back {
+  background: transparent; color: #94a3b8;
+  border: 1.5px solid #334155;
+}
+.toolbar-btn-back:hover { color: #fff; border-color: #64748b; }
+.toolbar-btn-print {
+  background: #00d4ff; color: #000;
+  border: none;
+}
+.toolbar-btn-print:hover { background: #fff; }
+
+/* ── PAGE WRAPPER (screen: looks like paper) ───────────── */
+.cv-page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  margin: 60px auto 40px;      /* 60px accounts for fixed toolbar */
+  background: var(--cv-bg);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── HEADER ────────────────────────────────────────────── */
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--margin) var(--margin) 8mm;
+  background: var(--cv-accent);
+  color: #fff;
+  gap: 10mm;
+}
+.cv-name {
+  font-family: var(--font-head);
+  font-size: 22pt; font-weight: 800;
+  line-height: 1.1; color: #fff;
+  letter-spacing: -0.02em;
+}
+.cv-job-title {
+  font-family: var(--font-mono); font-size: 8.5pt;
+  color: #a8d8ea; margin-top: 4px; letter-spacing: 0.04em;
+}
+.cv-header-right {
+  display: flex; flex-direction: column; gap: 4px;
+  align-items: flex-end; flex-shrink: 0;
+}
+.cv-contact-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 7.5pt; color: #cbd5e1;
+}
+.cv-contact-icon {
+  display: inline-block; width: 12px; text-align: center;
+  color: #a8d8ea; font-style: normal;
+}
+
+/* ── BODY ──────────────────────────────────────────────── */
+.cv-body {
+  display: flex;
+  flex: 1;
+}
+
+/* ── LEFT COLUMN ───────────────────────────────────────── */
+.cv-left {
+  width: 68mm;
+  flex-shrink: 0;
+  background: var(--cv-left-bg);
+  padding: 7mm var(--margin) var(--margin);
+  border-right: 1px solid var(--cv-border);
+}
+
+/* ── RIGHT COLUMN ──────────────────────────────────────── */
+.cv-right {
+  flex: 1;
+  padding: 7mm var(--margin) var(--margin);
+}
+
+/* ── SECTION ───────────────────────────────────────────── */
+.cv-section { margin-bottom: 6mm; }
+
+.cv-section-title {
+  font-family: var(--font-head);
+  font-size: 8pt; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--cv-accent);
+  padding-bottom: 2.5px;
+  border-bottom: 2px solid var(--cv-accent);
+  margin-bottom: 3.5mm;
+}
+
+.cv-text {
+  font-size: 7.5pt; color: var(--cv-text-dim);
+  line-height: 1.6;
+}
+
+/* ── SKILL ROWS ────────────────────────────────────────── */
+.cv-skill-row {
+  display: flex; gap: 4px;
+  margin-bottom: 2.5px;
+  font-size: 7pt; line-height: 1.4;
+}
+.cv-skill-key {
+  font-family: var(--font-head); font-weight: 700;
+  color: var(--cv-accent); min-width: 28mm;
+  flex-shrink: 0; padding-top: 1px;
+  font-size: 6.8pt;
+}
+.cv-skill-val { color: var(--cv-text-dim); }
+
+/* ── CERTIFICATIONS ────────────────────────────────────── */
+.cv-cert-item { margin-bottom: 3mm; }
+.cv-cert-title { display: block; font-size: 7.5pt; font-weight: 700; }
+.cv-cert-meta  { display: block; font-size: 6.8pt; color: var(--cv-text-muted); font-family: var(--font-mono); }
+.cv-cert-link  { display: block; font-size: 6pt; color: var(--cv-accent); font-family: var(--font-mono); word-break: break-all; }
+
+/* ── TIMELINE ──────────────────────────────────────────── */
+.cv-timeline-item {
+  position: relative;
+  padding-left: 9px;
+  border-left: 2px solid var(--cv-accent-light);
+  margin-bottom: 4mm;
+  padding-bottom: 1mm;
+}
+.cv-timeline-item::before {
+  content: '';
+  position: absolute; left: -4.5px; top: 4px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cv-accent);
+  border: 1.5px solid var(--cv-bg);
+}
+.cv-tl-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 4mm; margin-bottom: 2px;
+}
+.cv-tl-title {
+  font-size: 8pt; font-weight: 700;
+  font-family: var(--font-head); display: block;
+}
+.cv-tl-org {
+  display: block; font-size: 7pt;
+  color: var(--cv-text-muted);
+}
+.cv-tl-period {
+  font-family: var(--font-mono); font-size: 6.5pt;
+  color: var(--cv-text-muted); white-space: nowrap;
+  flex-shrink: 0; margin-top: 2px;
+}
+.cv-tl-desc {
+  font-size: 7pt; color: var(--cv-text-dim);
+  line-height: 1.5; margin-top: 2px;
+}
+
+/* ── PROJECTS TABLE ────────────────────────────────────── */
+.cv-proj-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 7pt;
+}
+.cv-proj-table thead tr {
+  background: var(--cv-accent); color: #fff;
+}
+.cv-proj-table th {
+  font-family: var(--font-head); font-weight: 700;
+  padding: 3px 5px; text-align: left;
+  font-size: 6.8pt; letter-spacing: 0.04em;
+}
+.cv-proj-table tbody tr:nth-child(even) { background: var(--cv-accent-light); }
+.cv-proj-table td { padding: 3px 5px; vertical-align: top; line-height: 1.4; }
+.cv-proj-table td:first-child { font-weight: 600; }
+.cv-mono { font-family: var(--font-mono); font-size: 6.2pt; color: var(--cv-text-dim); }
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT MEDIA QUERY — actual print output
+═══════════════════════════════════════════════════════════ */
+@media print {
+  /* Force-show background colours and images */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Remove screen chrome */
+  html { font-size: 10pt; }
+  body { background: none !important; }
+
+  /* Hide toolbar */
+  .no-print { display: none !important; }
+
+  /* Page setup */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* Remove box shadow and screen margins */
+  .cv-page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 !important;
+    box-shadow: none !important;
+    page-break-after: avoid;
+  }
+
+  /* Prevent orphaned items */
+  .cv-section       { page-break-inside: avoid; }
+  .cv-timeline-item { page-break-inside: avoid; }
+  .cv-proj-table tr { page-break-inside: avoid; }
+
+  /* Keep header on every page if content overflows */
+  .cv-header { page-break-after: avoid; }
+
+  /* Links: show URL inline after text */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 6pt;
+    color: var(--cv-text-muted);
+  }
+  /* But suppress it for cert links already shown as text */
+  .cv-cert-link a::after { display: none; }
+}
