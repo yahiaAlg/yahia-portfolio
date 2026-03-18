@@ -72,6 +72,7 @@ body {
   font-family: var(--font-h);
   font-size: 19pt; font-weight: 800;
   line-height: 1.08; color: #fff; letter-spacing: -.02em;
+  border: none; outline: none; box-shadow: none;
 }
 .cv-job-title {
   font-family: var(--font-m); font-size: 7.5pt;

@@ -1,6 +1,41 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Project, SkillCategory, Skill, Experience, Certification
+from .models import (SiteProfile, ContactLink, Language, TrainingCourse,
+                     Project, SkillCategory, Skill, Experience, Certification)
+
+
+@admin.register(SiteProfile)
+class SiteProfileAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Identity', {'fields': ['full_name', 'job_title', 'avatar', 'location']}),
+        ('Bio',      {'fields': ['summary']}),
+    ]
+    def has_add_permission(self, request):
+        return not SiteProfile.objects.exists()
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(ContactLink)
+class ContactLinkAdmin(admin.ModelAdmin):
+    list_display       = ('order', 'link_type', 'label', 'url', 'show_on_cv')
+    list_display_links = ('label',)
+    list_editable      = ('order', 'show_on_cv')
+    list_filter        = ('link_type', 'show_on_cv')
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display       = ('order', 'name', 'level')
+    list_display_links = ('name',)
+    list_editable      = ('order',)
+
+
+@admin.register(TrainingCourse)
+class TrainingCourseAdmin(admin.ModelAdmin):
+    list_display       = ('order', 'title', 'subtitle', 'period')
+    list_display_links = ('title',)
+    list_editable      = ('order',)
 
 
 @admin.register(Project)
@@ -21,14 +56,14 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def live_link(self, obj):
         if obj.live_url:
-            return format_html('<a href="{}" target="_blank">🔗 Live</a>', obj.live_url)
+            return format_html('<a href="{}" target="_blank">🔗</a>', obj.live_url)
         return '—'
     live_link.short_description = 'Live'
 
 
 class SkillInline(admin.TabularInline):
     model = Skill
-    extra = 3
+    extra = 2
 
 
 @admin.register(SkillCategory)
@@ -49,31 +84,6 @@ class ExperienceAdmin(admin.ModelAdmin):
 
 @admin.register(Certification)
 class CertificationAdmin(admin.ModelAdmin):
-    list_display       = ('order', 'cert_thumb', 'title', 'issuer', 'date', 'has_image', 'has_link')
+    list_display       = ('order', 'title', 'issuer', 'date')
     list_display_links = ('title',)
     list_editable      = ('order',)
-    fieldsets = (
-        (None, {'fields': ('title', 'issuer', 'date', 'icon', 'order')}),
-        ('Media', {'fields': ('image', 'link'),
-                   'description': 'Upload a scan/photo and/or add a verification URL. '
-                                  'If image is uploaded it opens in a lightbox. '
-                                  'If only a link is set, clicking opens the URL directly.'}),
-    )
-
-    def cert_thumb(self, obj):
-        if obj.image:
-            return format_html(
-                '<img src="{}" style="height:44px;width:66px;object-fit:cover;border-radius:4px;">',
-                obj.image.url)
-        return '—'
-    cert_thumb.short_description = 'Preview'
-
-    def has_image(self, obj):
-        return format_html('<i>🖼</i>') if obj.image else '—'
-    has_image.short_description = 'Image'
-
-    def has_link(self, obj):
-        if obj.link:
-            return format_html('<a href="{}" target="_blank">🔗</a>', obj.link)
-        return '—'
-    has_link.short_description = 'Link'

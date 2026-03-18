@@ -75,9 +75,12 @@
 
         <section class="cv-section">
           <h2 class="cv-section-title">Languages</h2>
-          <div class="cv-skill-block"><span class="cv-skill-key">Arabic</span><span class="cv-skill-val">Native</span></div>
-          <div class="cv-skill-block"><span class="cv-skill-key">French</span><span class="cv-skill-val">Professional</span></div>
-          <div class="cv-skill-block"><span class="cv-skill-key">English</span><span class="cv-skill-val">B2 Upper-Intermediate</span></div>
+          {% for lang in languages %}
+          <div class="cv-skill-block">
+            <span class="cv-skill-key">{{ lang.name }}</span>
+            <span class="cv-skill-val">{{ lang.level }}</span>
+          </div>
+          {% endfor %}
         </section>
 
       </aside>
@@ -131,19 +134,17 @@
 
         <section class="cv-section">
           <h2 class="cv-section-title">Training &amp; Courses</h2>
+          {% for course in training_courses %}
           <div class="cv-tl-item">
             <div class="cv-tl-top">
-              <span class="cv-tl-title">STAI Academy <span class="cv-tl-org-inline">(Académie Ambassadeur Technologies &amp; IA)</span></span>
-              <span class="cv-tl-period">2023–2024</span>
+              <span class="cv-tl-title">{{ course.title }}
+                {% if course.subtitle %}<span class="cv-tl-org-inline"> — {{ course.subtitle }}</span>{% endif %}
+              </span>
+              <span class="cv-tl-period">{{ course.period }}</span>
             </div>
-            <p class="cv-tl-desc">Python (Fund.→Adv.) · Django Backend · Bootstrap 5 Frontend</p>
+            {% if course.description %}<p class="cv-tl-desc">{{ course.description }}</p>{% endif %}
           </div>
-          <div class="cv-tl-item">
-            <div class="cv-tl-top">
-              <span class="cv-tl-title">UI/UX Design Coaching <span class="cv-tl-org-inline">— University Business Incubator, Sétif 1</span></span>
-              <span class="cv-tl-period">May 2024</span>
-            </div>
-          </div>
+          {% endfor %}
         </section>
 
       </main>

@@ -351,50 +351,19 @@
             Reach out — I usually respond within 24 hours.
           </p>
           <div class="row g-4 mt-2">
+            {% for contact in contacts %}
             <div class="col-sm-6">
-              <a href="mailto:{{ owner.email }}" class="contact-item">
+              <a href="{{ contact.href }}" {% if contact.link_type != 'email' %}target="_blank"{% endif %} class="contact-item">
                 <div class="contact-item-icon">
-                  <i data-lucide="mail" width="20" height="20"></i>
+                  <i data-lucide="{{ contact.icon }}" width="20" height="20"></i>
                 </div>
                 <div>
-                  <div class="contact-item-label">Email</div>
-                  <div class="contact-item-value">{{ owner.email }}</div>
+                  <div class="contact-item-label">{{ contact.get_link_type_display }}</div>
+                  <div class="contact-item-value">{{ contact.label }}</div>
                 </div>
               </a>
             </div>
-            <div class="col-sm-6">
-              <a href="https://wa.me/{{ owner.phone|cut:' '|cut:'+' }}" target="_blank" class="contact-item">
-                <div class="contact-item-icon">
-                  <i data-lucide="phone" width="20" height="20"></i>
-                </div>
-                <div>
-                  <div class="contact-item-label">WhatsApp</div>
-                  <div class="contact-item-value">{{ owner.phone }}</div>
-                </div>
-              </a>
-            </div>
-            <div class="col-sm-6">
-              <a href="{{ owner.github }}" target="_blank" class="contact-item">
-                <div class="contact-item-icon">
-                  <i data-lucide="github" width="20" height="20"></i>
-                </div>
-                <div>
-                  <div class="contact-item-label">GitHub</div>
-                  <div class="contact-item-value">yahiaAlg</div>
-                </div>
-              </a>
-            </div>
-            <div class="col-sm-6">
-              <a href="{{ owner.linkedin }}" target="_blank" class="contact-item">
-                <div class="contact-item-icon">
-                  <i data-lucide="linkedin" width="20" height="20"></i>
-                </div>
-                <div>
-                  <div class="contact-item-label">LinkedIn</div>
-                  <div class="contact-item-value">abderraouf-lakhfif</div>
-                </div>
-              </a>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
