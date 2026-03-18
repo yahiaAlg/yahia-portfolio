@@ -12,7 +12,7 @@ pip install -r requirements.txt
 pip install gunicorn
 
 # Flush database and reapply migrations (fresh deploy)
-# python manage.py flush --no-input
+python manage.py flush --no-input
 python manage.py migrate
 
 # Collect static files for production
