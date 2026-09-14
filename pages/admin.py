@@ -84,6 +84,13 @@ class ExperienceAdmin(admin.ModelAdmin):
 
 @admin.register(Certification)
 class CertificationAdmin(admin.ModelAdmin):
-    list_display       = ('order', 'title', 'issuer', 'date')
+    list_display       = ('order', 'cert_thumb', 'title', 'issuer', 'date')
     list_display_links = ('title',)
     list_editable      = ('order',)
+
+    def cert_thumb(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="height:40px;border-radius:4px;">', obj.image.url)
+        return '—'
+    cert_thumb.short_description = 'Preview'

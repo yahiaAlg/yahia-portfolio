@@ -1,6 +1,11 @@
+import os
+from django.conf import settings
+from django.core.files import File
 from django.core.management.base import BaseCommand
 from pages.models import (SiteProfile, ContactLink, Language, TrainingCourse,
                           Project, SkillCategory, Skill, Experience, Certification)
+
+SEED_ASSETS_DIR = os.path.join(settings.BASE_DIR, 'pages', 'seed_assets')
 
 
 class Command(BaseCommand):
@@ -98,16 +103,25 @@ class Command(BaseCommand):
                  description='Server & DB admin · WinDev clinic software development · LAN config · hardware maintenance & technical support',
                  exp_type='work', order=0),
             dict(title='Honorary Teacher (Vacataire)', organization='Université Ferhat Abbas',
-                 location='Sétif 1', start_date='2025', end_date='Present',
+                 location='Sétif 1', start_date='2025', end_date='May 2026',
                  description='S2 2025: Computer Engineering & Science et Matière (1st yr LMD)\nS2 2026: Science et Matière (Tronc Commun)',
                  exp_type='teach', order=1),
+            dict(title='System Administrator, Developer & Trainer', organization='EEMS — Excellence Management Solutions',
+                 location='Sétif', start_date='Mar 2026', end_date='',
+                 description=('Windows & Ubuntu Server (Linux) systems administration · PostgreSQL & MySQL '
+                               'database administration and backup strategy · Automation via Bash & PowerShell '
+                               'scripting · Web development and hardware maintenance · Network setup: routing, '
+                               'port forwarding, OpenVPN configuration · Certified Trainer (Formateur): web '
+                               'development, bureautique, and server administration courses'),
+                 exp_type='work', order=2),
             dict(title="Master's — IDTW (Big Data & Web Technologies)", organization='Université Ferhat Abbas',
                  location='Sétif 1', start_date='2022', end_date='Jul 2024',
                  description='ML I&II · Advanced Databases · Data Warehousing · Cloud · Distributed Systems · Web Security · Web Mining · Advanced AI',
                  exp_type='edu', order=0),
         ]
         for item in items:
-            Experience.objects.get_or_create(title=item['title'], organization=item['organization'], defaults=item)
+            Experience.objects.update_or_create(
+                title=item['title'], organization=item['organization'], defaults=item)
         self.stdout.write('  ✓ Experience seeded')
 
     def _seed_certifications(self):
@@ -117,10 +131,23 @@ class Command(BaseCommand):
             (2, 'Work Certificate',       'Clinique Les Babors',                 '18/12/2025', 'briefcase'),
             (3, 'UI/UX Design Coaching',  'University Business Incubator, Sétif 1', 'May 2024','pen-tool'),
             (4, 'Adobe XD UI/UX Design',  'Adobe',                               '2024',       'layers'),
+            (5, 'English Certificate — B2.1', 'CEIL, Université Ferhat Abbas Sétif 1', '19/03/2026', 'languages'),
         ]
         for order, title, issuer, date, icon in certs:
-            Certification.objects.get_or_create(title=title, defaults={'issuer':issuer,'date':date,'icon':icon,'order':order})
+            Certification.objects.update_or_create(
+                title=title, defaults={'issuer': issuer, 'date': date, 'icon': icon, 'order': order})
+        self._attach_asset_image(
+            Certification, 'English Certificate — B2.1',
+            os.path.join(SEED_ASSETS_DIR, 'certifications', 'certificat_english_b2_lakhfif.png'))
         self.stdout.write('  ✓ Certifications seeded')
+
+    def _attach_asset_image(self, model, title, asset_path):
+        """Attach a bundled image file to a record's `image` field if it doesn't have one yet."""
+        obj = model.objects.filter(title=title).first()
+        if obj and not obj.image and os.path.exists(asset_path):
+            with open(asset_path, 'rb') as f:
+                obj.image.save(os.path.basename(asset_path), File(f), save=True)
+            self.stdout.write(f'    ↳ attached image for "{title}"')
 
     def _seed_projects(self):
         projects = [

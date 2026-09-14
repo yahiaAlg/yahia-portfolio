@@ -59,7 +59,7 @@ class ContactLink(models.Model):
     link_type   = models.CharField(max_length=20, choices=TYPE_CHOICES)
     label       = models.CharField(max_length=100, help_text='Display text e.g. yahiaAlg')
     url         = models.CharField(max_length=300, help_text='Full URL or value (mailto:, tel:, https://...)')
-    order       = models.PositiveSmallIntegerField(default=0)
+    order       = models.PositiveSmallIntegerField(default=0, blank=True)
     show_on_cv  = models.BooleanField(default=True, help_text='Include in print CV')
 
     class Meta:
@@ -87,7 +87,7 @@ class ContactLink(models.Model):
 class Language(models.Model):
     name  = models.CharField(max_length=100)
     level = models.CharField(max_length=100, help_text='e.g. Native, B2 Upper-Intermediate')
-    order = models.PositiveSmallIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -104,7 +104,7 @@ class TrainingCourse(models.Model):
     period      = models.CharField(max_length=60, help_text='e.g. 2023–2024 or May 2024')
     certificate = models.ImageField(upload_to='training/', blank=True, null=True)
     link        = models.URLField(blank=True, help_text='Verification or course URL')
-    order       = models.PositiveSmallIntegerField(default=0)
+    order       = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -117,7 +117,7 @@ class TrainingCourse(models.Model):
 class SkillCategory(models.Model):
     name  = models.CharField(max_length=100)
     icon  = models.CharField(max_length=50, help_text="Lucide icon name e.g. 'code-2'")
-    order = models.PositiveSmallIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -130,7 +130,7 @@ class SkillCategory(models.Model):
 class Skill(models.Model):
     category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE, related_name='skills')
     name     = models.CharField(max_length=100)
-    order    = models.PositiveSmallIntegerField(default=0)
+    order    = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order', 'name']
@@ -159,7 +159,7 @@ class Project(models.Model):
     live_url    = models.URLField(blank=True)
     github_url  = models.URLField(blank=True)
     featured    = models.BooleanField(default=False)
-    order       = models.PositiveSmallIntegerField(default=0)
+    order       = models.PositiveSmallIntegerField(default=0, blank=True)
     created_at  = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -183,7 +183,7 @@ class Experience(models.Model):
     exp_type     = models.CharField(max_length=10,
                        choices=[('work','Work'),('teach','Teaching'),('edu','Education')],
                        default='work')
-    order        = models.PositiveSmallIntegerField(default=0)
+    order        = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -206,7 +206,7 @@ class Certification(models.Model):
                  help_text='Upload scan/photo of certificate')
     link   = models.URLField(blank=True,
                  help_text='External verification URL')
-    order  = models.PositiveSmallIntegerField(default=0)
+    order  = models.PositiveSmallIntegerField(default=0, blank=True)
 
     class Meta:
         ordering = ['order']
