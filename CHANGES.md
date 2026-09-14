@@ -31,6 +31,14 @@ python manage.py seed_portfolio
   - Switched `Experience` and `Certification` seeding from `get_or_create` to `update_or_create`,
     so re-running the seed command actually applies edits to existing rows instead of silently
     skipping them (this is what would've eaten the "Present → May 2026" change otherwise).
+  - Added two new portfolio Projects: **Factory ERP — Cement & Public Works Production**
+    (client: MAPA Group — Algeria Branch, live: factory-management-system-erp.onrender.com, repo:
+    factory_management_system) and **Poultry Farming ERP (Élevage Avicole)** (client: Frères
+    Mesaoudène, live: avicole-farming-erp-webapp.onrender.com, repo: avicole_project). Both are
+    Django/Bootstrap 5/PostgreSQL/Chart.js, confirmed from each repo's `requirements.txt` and
+    `templates/base.html`, with descriptions scoped to features the functional specs mark as
+    actually built (not the "planned, not yet built" amendments in the factory spec).
+  - Switched `Project` seeding to `update_or_create` too, for the same idempotency reason as above.
   - Added `_attach_asset_image()`, which auto-attaches a bundled image to a Certification's
     `image` field on seed if it doesn't have one yet — no manual admin upload needed for the new cert.
 

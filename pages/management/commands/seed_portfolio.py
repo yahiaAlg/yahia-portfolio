@@ -196,7 +196,29 @@ class Command(BaseCommand):
                  description='Standalone inventory management applications with CRUD, reporting, and print functionality.',
                  tech_stack='Java, JavaFX, C++ Qt, SQLite',
                  live_url='', featured=False, order=8),
+            dict(title='Factory ERP — Cement & Public Works Production', slug='factory-erp-mapa', category='saas',
+                 client='MAPA Group — Algeria Branch (Cement & Public Works)',
+                 description=('End-to-end factory ERP for a cement and public-works production line: supplier '
+                               'delivery notes & raw-material stock, formula/BOM-based production orders, '
+                               'finished-goods stock, client delivery notes & FIFO invoicing/settlement (with '
+                               'timbre fiscal), expense tracking, document-proof attachments, audit logs, and a '
+                               'Manager/Accountant/Viewer reporting dashboard.'),
+                 tech_stack='Django, Bootstrap 5, PostgreSQL, Chart.js, django-import-export',
+                 live_url='https://factory-management-system-erp.onrender.com/',
+                 github_url='https://github.com/yahiaAlg/factory_management_system',
+                 featured=True, order=9),
+            dict(title='Poultry Farming ERP (Élevage Avicole)', slug='avicole-poultry-erp', category='saas',
+                 client='Frères Mesaoudène — Poultry Farm',
+                 description=('Multi-branch internal management system for a poultry farming operation: input & '
+                               'batch (lot) tracking, feed consumption, production output, inventory, '
+                               'supplier/client delivery notes & FIFO-settled invoicing, stakeholder withdrawals, '
+                               'and HR/payroll — covering the full cycle from chick arrival to client payment '
+                               'collection.'),
+                 tech_stack='Django, Bootstrap 5, PostgreSQL, Chart.js, django-import-export',
+                 live_url='https://avicole-farming-erp-webapp.onrender.com/',
+                 github_url='https://github.com/yahiaAlg/avicole_project',
+                 featured=True, order=10),
         ]
         for p in projects:
-            Project.objects.get_or_create(slug=p['slug'], defaults=p)
+            Project.objects.update_or_create(slug=p['slug'], defaults=p)
         self.stdout.write('  ✓ Projects seeded')
